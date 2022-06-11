@@ -1,6 +1,6 @@
 import numpy as np
 import copy
-
+import os
 
 class Game:
 
@@ -19,24 +19,30 @@ class Game:
         self.availCannon = 0
 
     def makeEnemy(self):
-        newEnemy = np.random.randint(2, size=nCol)
+        newEnemy = np.random.randint(2, size=self.nCol)
         # Need a little more work here ... after a few levels:
         # The number of enemies generated should be higher
         return newEnemy
 
     def step(self):             # Enemies take one step forward
         if (sum(self.gameGrid[-1, :]) > 0):
-            print("you lost... sorry")
+            os.system('clear')
             print(self.gameGrid)
             print()
             print(self.cannonState)
+            print()
+            print(f"Available cannnon {self.availCannon}")
+            print("you lost... sorry")
             exit
         else:
-            self.gameGrid[1:-1, :] = self.gameGrid[0: nRow-2, :]
+            self.gameGrid[1:self.nRow-1, :] = self.gameGrid[0: self.nRow-2, :]
             self.gameGrid[0, :] = self.makeEnemy()  # Random innitialization
+            os.system('clear')
             print(self.gameGrid)
             print()
             print(self.cannonState)
+            print()
+            print(f"Available cannnon {self.availCannon}")
 
     def fire(self):             # damage calculation for cannon shots
         tempCannonState = copy.copy(self.cannonState)
@@ -45,15 +51,16 @@ class Game:
             # print(self.nRow)
             tempRow = copy.copy(self.gameGrid[j, :])  # Save state before hit
             # Hit
-            self.gameGrid[j, :] += - tempCannonState[:]
+            self.gameGrid[j, :] -= (tempRow != 0) * tempCannonState[:]
+            
             # reduce cannonState
-            tempCannonState += - tempRow
+            tempCannonState -= tempRow
 
             # Check if cannon state Negative
             tempCannonState = (tempCannonState > 0) * tempCannonState
             # Check for overHits: hit with more cannon than enemy
             # In this case the tempCannonState goes to zero
-            tempCannonState += - (self.gameGrid[j, :] < 0) * tempCannonState
+            tempCannonState -= (self.gameGrid[j, :] < 0) * tempCannonState
 
             # Check if Game Grid Negative
             self.gameGrid[j, :] = (self.gameGrid[j, :] > 0) * self.gameGrid[j, :]
@@ -73,46 +80,3 @@ class Game:
             self.cannonState[toCell] = self.cannonState[toCell] + \
                 self.cannonState[fromCell]
             self.cannonState[fromCell] = 0
-
-
-nRow = 10
-nCol = 6
-maxEnemy = 6
-# create new game
-g = Game(nRow, nCol, maxEnemy)
-
-# test section
-g.step()
-g.step()
-g.step()
-
-g.moveCannon(99, 1)
-g.moveCannon(99, 1)
-g.moveCannon(99, 1)
-g.moveCannon(99, 1)
-g.moveCannon(99, 1)
-
-
-g.fire()
-print(g.gameGrid)
-print()
-print(g.cannonState)
-g.fire()
-print(g.gameGrid)
-print()
-print(g.cannonState)
-g.fire()
-print(g.gameGrid)
-print()
-print(g.cannonState)
-
-# Test commit by Sravya
-
-
-# start game loop
-# while True:
-#     g.step()
-#     move = input("Enter your move - ")
-#     print(move)
-#     cannonState, availCannon = g.moveCannon(move)
-#     gameGrid = g.fire()
