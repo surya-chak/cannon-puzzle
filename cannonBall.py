@@ -1,6 +1,8 @@
 import numpy as np
 import copy
 import os
+import random
+import math
 
 class Game:
 
@@ -17,11 +19,40 @@ class Game:
         self.gameGrid = np.zeros((nRow, nCol)).astype(int)
         self.cannonState = np.zeros(nCol).astype(int)
         self.availCannon = 0
+        self.gameCounter = 0 
 
     def makeEnemy(self):
-        newEnemy = np.random.randint(2, size=self.nCol)
-        # Need a little more work here ... after a few levels:
-        # The number of enemies generated should be higher
+        # if (self.gameCounter < 6):
+        #     newEnemy = np.random.randint(2, size=self.nCol)
+        #     # Need a little more work here ... after a few levels:
+        #     # The number of enemies generated should be higher
+           
+        # elif(self.gameCounter > 5 and self.gameCounter < 11):
+        #     newEnemy = np.random.randint(4, size=self.nCol)
+        # else: 
+
+        def rounddown(x):
+            return int(math.ceil(x / 1.0)) * 1
+
+        self.gameCounter = 9
+        self.nCol = 5
+
+        totals = [rounddown(self.gameCounter/3)] 
+        newEnemy = []
+        for i in totals:
+            if i == 0: 
+                newEnemy.append([0 for i in range(5)])
+                continue
+            total = i
+            temp = []
+            for i in range(4):
+                val = np.random.randint(0, total)
+                temp.append(val)
+                total -= val
+            temp.append(total)
+            newEnemy.append(temp)
+        print(newEnemy)
+
         return newEnemy
 
     def step(self):             # Enemies take one step forward
@@ -35,6 +66,7 @@ class Game:
             print("you lost... sorry")
             exit
         else:
+            self.gameCounter += 1 
             self.gameGrid[1:self.nRow-1, :] = self.gameGrid[0: self.nRow-2, :]
             self.gameGrid[0, :] = self.makeEnemy()  # Random innitialization
             os.system('clear')
