@@ -21,37 +21,26 @@ class Game:
         self.availCannon = 0
         self.gameCounter = 0 
 
-    def makeEnemy(self):
-        # if (self.gameCounter < 6):
-        #     newEnemy = np.random.randint(2, size=self.nCol)
-        #     # Need a little more work here ... after a few levels:
-        #     # The number of enemies generated should be higher
-           
-        # elif(self.gameCounter > 5 and self.gameCounter < 11):
-        #     newEnemy = np.random.randint(4, size=self.nCol)
-        # else: 
-
-        def rounddown(x):
+    def rounddown(self, x):
             return int(math.ceil(x / 1.0)) * 1
-
-        self.gameCounter = 9
-        self.nCol = 5
-
-        totals = [rounddown(self.gameCounter/3)] 
+            
+            
+    def makeEnemy(self):
+        totals = [self.rounddown(self.gameCounter/3)]
         newEnemy = []
         for i in totals:
             if i == 0: 
-                newEnemy.append([0 for i in range(5)])
+                newEnemy.append([0 for i in range(self.nCol)])
                 continue
             total = i
             temp = []
-            for i in range(4):
+            for i in range(self.nCol-1):
                 val = np.random.randint(0, total)
                 temp.append(val)
                 total -= val
             temp.append(total)
             newEnemy.append(temp)
-        print(newEnemy)
+        print(totals)
 
         return newEnemy
 

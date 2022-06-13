@@ -9,7 +9,8 @@ g = Game(nRow, nCol, maxEnemy)
 # test section
 # g.step()
 # g.step()
-# g.step()
+# g.step()99
+
 
 # g.moveCannon(99, 1)
 # g.moveCannon(99, 1)
