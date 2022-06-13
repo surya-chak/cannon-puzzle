@@ -5,7 +5,7 @@ import math
 def rounddown(x):
     return int(math.ceil(x / 1.0)) * 1
 
-gameCounter = 9
+gameCounter = 15
 nCol = 5
 
 totals = [rounddown(gameCounter/3)] 
