@@ -4,6 +4,7 @@ import os
 import random
 import math
 
+
 class Game:
 
     def __init__(self, nRow, nCol, maxEnemy):
@@ -19,17 +20,16 @@ class Game:
         self.gameGrid = np.zeros((nRow, nCol)).astype(int)
         self.cannonState = np.zeros(nCol).astype(int)
         self.availCannon = 0
-        self.gameCounter = 0 
+        self.gameCounter = 0
 
     def rounddown(self, x):
-            return int(math.ceil(x / 1.0)) * 1
-            
-            
+        return int(math.ceil(x / 1.0)) * 1
+
     def makeEnemy(self):
         totals = [self.rounddown(self.gameCounter/3)]
         newEnemy = []
         for i in totals:
-            if i == 0: 
+            if i == 0:
                 newEnemy.append([0 for i in range(self.nCol)])
                 continue
             total = i
@@ -42,7 +42,7 @@ class Game:
             newEnemy.append(temp)
         print(totals)
 
-        return newEnemy
+        return np.array(newEnemy)
 
     def step(self):             # Enemies take one step forward
         if (sum(self.gameGrid[-1, :]) > 0):
@@ -55,7 +55,7 @@ class Game:
             print("you lost... sorry")
             exit
         else:
-            self.gameCounter += 1 
+            self.gameCounter += 1
             self.gameGrid[1:self.nRow-1, :] = self.gameGrid[0: self.nRow-2, :]
             self.gameGrid[0, :] = self.makeEnemy()  # Random innitialization
             os.system('clear')
@@ -73,7 +73,6 @@ class Game:
             tempRow = copy.copy(self.gameGrid[j, :])  # Save state before hit
             # Hit
             self.gameGrid[j, :] -= (tempRow != 0) * tempCannonState[:]
-            
             # reduce cannonState
             tempCannonState -= tempRow
 

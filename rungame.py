@@ -6,32 +6,6 @@ maxEnemy = 6
 # create new game
 g = Game(nRow, nCol, maxEnemy)
 
-# test section
-# g.step()
-# g.step()
-# g.step()99
-
-
-# g.moveCannon(99, 1)
-# g.moveCannon(99, 1)
-# g.moveCannon(99, 1)
-# g.moveCannon(99, 1)
-# g.moveCannon(99, 1)
-
-
-# g.fire()
-# print(g.gameGrid)
-# print()
-# print(g.cannonState)
-# g.fire()
-# print(g.gameGrid)
-# print()
-# print(g.cannonState)
-# g.fire()
-# print(g.gameGrid)
-# print()
-# print(g.cannonState)
-
 # start game loop
 while True:
     g.step()
